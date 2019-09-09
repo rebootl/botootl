@@ -1,0 +1,17 @@
+{
+  "name": "yutuvoice",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "git+https://github.com/discordjs/discord.js.git#efbbfbcec6d9b090eb7053bbb39acea50c46c517",
+    "opusscript": "0.0.7",
+    "ytdl-core": "^0.29.6"
+  }
+}
