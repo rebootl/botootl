@@ -13,11 +13,12 @@ client.on('ready', async () => {
   const voice = await voiceCh.join();
 
   let playing = false;
+  let volume = config.volume;
   let url = "";
   let dispatcher;
 
   const playVoice = stream => {
-    return voice.play(stream, { seek: 0, volume: 0.5 });
+    return voice.play(stream, { seek: 0, volume: volume });
   }
 
   client.on('message', message => {
@@ -63,6 +64,18 @@ client.on('ready', async () => {
       }
       else if (cmd === 'song' && playing) {
         message.channel.send(url);
+      }
+      else if (cmd === 'volume') {
+        if (parts.length === 1) {
+          message.channel.send("Current Volume: " + volume);
+          return;
+        }
+        v_in = parseFloat(parts[1]);
+        if (isNaN(v_in)) { return; }
+        volume = v_in;
+        if (playing) {
+          dispatcher.setVolume(volume);
+        }
       }
     }
     return;

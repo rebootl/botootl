@@ -1,5 +1,6 @@
 {
   "token": "ABCDE.DEF.HIJKLMNOP",
   "voiceChannelId": "123456789",
-  "textChannelId": "987654321"
+  "textChannelId": "987654321",
+  "volume": 0.5
 }
