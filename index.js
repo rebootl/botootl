@@ -14,6 +14,7 @@ client.on('ready', async () => {
 
   let playing = false;
   let volume = config.volume;
+  const max_volume = 1.0;
   let url = "";
   let dispatcher;
 
@@ -70,12 +71,16 @@ client.on('ready', async () => {
           message.channel.send("Current Volume: " + volume);
           return;
         }
-        v_in = parseFloat(parts[1]);
-        if (isNaN(v_in)) { return; }
-        volume = v_in;
+        if (parts[1] === 'up' && volume < max_volume) {
+          volume = Math.round((volume + 0.1) * 10) / 10;
+        }
+        else if (parts[1] === 'down' && volume > 0.) {
+          volume = Math.round((volume - 0.1) * 10) / 10;
+        }
         if (playing) {
           dispatcher.setVolume(volume);
         }
+        message.channel.send("Current Volume: " + volume);
       }
     }
     return;

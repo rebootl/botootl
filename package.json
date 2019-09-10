@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "git+https://github.com/discordjs/discord.js.git#efbbfbcec6d9b090eb7053bbb39acea50c46c517",
-    "opusscript": "0.0.7",
+    "node-opus": "^0.3.2",
     "ytdl-core": "^0.29.6"
   }
 }
