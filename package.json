@@ -1,7 +1,7 @@
 {
   "name": "yutuvoice",
   "version": "0.0.1",
-  "description": "",
+  "description": "Discord Youtube Audio Bot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -12,6 +12,6 @@
   "dependencies": {
     "discord.js": "git+https://github.com/discordjs/discord.js.git#efbbfbcec6d9b090eb7053bbb39acea50c46c517",
     "node-opus": "^0.3.2",
-    "ytdl-core": "^0.29.6"
+    "ytdl-core": "^1.0.0"
   }
 }
