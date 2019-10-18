@@ -82,6 +82,10 @@ client.on('ready', async () => {
         }
         message.channel.send("Current Volume: " + volume);
       }
+      else if (cmd === 'restart') {
+        message.reply('bee boop bee boop');
+        process.exit(0);
+      }
     }
     return;
   });
