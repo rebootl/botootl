@@ -8,12 +8,14 @@ const selectiveMode = true;
 const client = new Discord.Client();
 
 const util = require('util');
-const { spawn } = require('child_process');
+const spawnSync = require('child_process').spawnSync;
 
 // TTS synthesis
 function createText(text) {
   //const filename = `espeak-${Math.random().toString().split('.')[1]}.wav`;
-  const espeak = spawnSync('espeak', ['-w', 'text.wav', text]);
+  const ret = spawnSync('espeak', ['-w', 'text.wav', text]);
+
+/*  const espeak = spawnSync('espeak', ['-w', 'text.wav', text]);
   espeak.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
   });
@@ -22,7 +24,7 @@ function createText(text) {
   });
   espeak.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
-  });
+  });*/
 };
 
 client.on('ready', async () => {
@@ -42,7 +44,7 @@ client.on('ready', async () => {
   }
 
   const playText = text => {
-    return voice.playFile('text.wav');
+    return voice.play('text.wav');
   }
 
   client.on('message', message => {
@@ -110,7 +112,7 @@ client.on('ready', async () => {
         process.exit(0);
       }
       else if (cmd === 'say') {
-        text = parts[1];
+        text = parts.slice(1);
         createText(text);
         playText(text);
       }
