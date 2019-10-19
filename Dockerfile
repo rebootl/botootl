@@ -5,7 +5,8 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN apk add --no-cache git make gcc g++ python autoconf libtool ffmpeg espeak
+RUN apk add --no-cache git make gcc g++ python autoconf libtool ffmpeg espeak \
+  fortune
 RUN npm i
 RUN apk del git make gcc g++ python
 

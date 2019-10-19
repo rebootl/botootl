@@ -27,6 +27,10 @@ function createText(text) {
   });*/
 };
 
+function getMOTD() {
+  const ret = spawnSync('fortune', ['-a', '-s']);
+}
+
 client.on('ready', async () => {
   console.log('I am ready!');
   const voiceCh = await client.channels.get(config.voiceChannelId);
@@ -40,7 +44,8 @@ client.on('ready', async () => {
   let dispatcher;
 
   const playVoice = stream => {
-    return voice.play(stream, { seek: 0, volume: volume });
+    const { stdout } = voice.play(stream, { seek: 0, volume: volume });
+    return stdout;
   }
 
   const playText = text => {
@@ -88,8 +93,15 @@ client.on('ready', async () => {
           dispatcher.destroy();
           playing = false;
       }
-      else if (cmd === 'song' && playing) {
-        message.channel.send(url);
+      else if (cmd === 'song') {
+        if (playing) {
+          message.channel.send(url);
+        } else {
+          repl = "I'm not playing a song rn";
+          message.channel.send(repl);
+          createText(repl);
+          playText(repl);
+        }
       }
       else if (cmd === 'volume') {
         if (parts.length === 1) {
@@ -112,9 +124,17 @@ client.on('ready', async () => {
         process.exit(0);
       }
       else if (cmd === 'say') {
-        text = parts.slice(1);
-        createText(text);
-        playText(text);
+        if (playing) {
+	  message.channel.send("I'm playing a song... pls wait :D");
+        } else {
+          text = parts.slice(1);
+          createText(text);
+          playText(text);
+        }
+      }
+      else if (cmd == 'motd') {
+        motd = getMOTD();
+        message.channel.send("`" + motd + "`");
       }
     }
     return;
