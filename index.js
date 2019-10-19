@@ -7,6 +7,24 @@ const selectiveMode = true;
 // Create an instance of a Discord client
 const client = new Discord.Client();
 
+const util = require('util');
+const { spawn } = require('child_process');
+
+// TTS synthesis
+function createText(text) {
+  //const filename = `espeak-${Math.random().toString().split('.')[1]}.wav`;
+  const espeak = spawnSync('espeak', ['-w', 'text.wav', text]);
+  espeak.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+  espeak.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
+  espeak.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+};
+
 client.on('ready', async () => {
   console.log('I am ready!');
   const voiceCh = await client.channels.get(config.voiceChannelId);
@@ -16,10 +34,15 @@ client.on('ready', async () => {
   let volume = config.volume;
   const max_volume = 1.0;
   let url = "";
+  let text = "";
   let dispatcher;
 
   const playVoice = stream => {
     return voice.play(stream, { seek: 0, volume: volume });
+  }
+
+  const playText = text => {
+    return voice.playFile('text.wav');
   }
 
   client.on('message', message => {
@@ -85,6 +108,11 @@ client.on('ready', async () => {
       else if (cmd === 'restart') {
         message.reply('bee boop bee boop');
         process.exit(0);
+      }
+      else if (cmd === 'say') {
+        text = parts[1];
+        createText(text);
+        playText(text);
       }
     }
     return;
