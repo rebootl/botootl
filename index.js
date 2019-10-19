@@ -29,6 +29,7 @@ function createText(text) {
 
 function getMOTD() {
   const ret = spawnSync('fortune', ['-a', '-s']);
+  return ret.stdout;
 }
 
 client.on('ready', async () => {
@@ -44,8 +45,7 @@ client.on('ready', async () => {
   let dispatcher;
 
   const playVoice = stream => {
-    const { stdout } = voice.play(stream, { seek: 0, volume: volume });
-    return stdout;
+    return voice.play(stream, { seek: 0, volume: volume });
   }
 
   const playText = text => {
@@ -135,6 +135,9 @@ client.on('ready', async () => {
       else if (cmd == 'motd') {
         motd = getMOTD();
         message.channel.send("`" + motd + "`");
+        if (!playing) {
+          playText(motd);
+        }
       }
     }
     return;
