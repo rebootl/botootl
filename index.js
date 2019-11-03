@@ -26,7 +26,7 @@ function getMOTD() {
 function getCowlist() {
   const folder = './node_modules/cowsay/cows';
   const cowfiles = [];
-  fs.readdirSync(testFolder).forEach(file => {
+  fs.readdirSync(folder).forEach(file => {
     cowfiles.push(file.split('.')[0]);
   });
   return cowfiles;
@@ -135,12 +135,13 @@ client.on('ready', async () => {
       else if (cmd === 'cowsay') {
         text = parts.slice(1);
         let cowfile = 'sheep';
-        if (parts[0].startsWith('[')) {
+        if (text[0].startsWith('[')) {
+          const cow = text[0].slice(1, -1);
           const cowfiles = getCowlist();
-          const cow = cowfile.slice(1, -1);
           if (cowfiles.includes(cow)) {
             cowfile = cow;
           }
+          text = text.slice(1);
         }
         message.channel.send("```" + cowsay.say({text: text.join(' '),
         f: cowfile}) + "```",);
@@ -149,7 +150,15 @@ client.on('ready', async () => {
           playText(text);
         }
       }
-      else if (cmd == 'motd') {
+      else if (cmd === 'cowlist') {
+        const cowlist = getCowlist();
+        let cowtext = ""
+        for (const c of cowlist) {
+          cowtext += c + '\n';
+        }
+        message.channel.send("```" + cowtext + "```");
+      }
+      else if (cmd === 'motd') {
         motd = getMOTD();
         message.channel.send("```" + motd + "```");
         if (!playing) {
