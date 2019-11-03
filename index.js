@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
+const cowsay = require('cowsay');
 
 const config = require('./config.json');
 const selectiveMode = true;
@@ -132,10 +133,20 @@ client.on('ready', async () => {
           playText(text);
         }
       }
+      else if (cmd === 'cowsay') {
+        text = parts.slice(1);
+        message.channel.send("```" + cowsay.say({text: text.join(' '),
+        f: 'sheep'}) + "```",);
+        if (!playing) {
+          createText(text);
+          playText(text);
+        }
+      }
       else if (cmd == 'motd') {
         motd = getMOTD();
-        message.channel.send("`" + motd + "`");
+        message.channel.send("```" + motd + "```");
         if (!playing) {
+          createText(motd);
           playText(motd);
         }
       }
