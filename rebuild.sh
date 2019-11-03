@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-docker build -t yutuvoice .
-docker stop yutuvoice-run
-docker rm yutuvoice-run
-docker run --name yutuvoice-run -d --restart always yutuvoice
+docker build -t botootl .
+docker stop botootl-run
+docker rm botootl-run
+docker run --name botootl-run -d --restart always botootl

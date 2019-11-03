@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 const cowsay = require('cowsay');
+const fs = require('fs');
 
 const config = require('./config.json');
 const selectiveMode = true;
@@ -15,22 +16,20 @@ const spawnSync = require('child_process').spawnSync;
 function createText(text) {
   //const filename = `espeak-${Math.random().toString().split('.')[1]}.wav`;
   const ret = spawnSync('espeak', ['-w', 'text.wav', text]);
-
-/*  const espeak = spawnSync('espeak', ['-w', 'text.wav', text]);
-  espeak.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
-  espeak.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
-  });
-  espeak.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });*/
 };
 
 function getMOTD() {
   const ret = spawnSync('fortune', ['-a', '-s']);
   return ret.stdout;
+}
+
+function getCowlist() {
+  const folder = './node_modules/cowsay/cows';
+  const cowfiles = [];
+  fs.readdirSync(testFolder).forEach(file => {
+    cowfiles.push(file.split('.')[0]);
+  });
+  return cowfiles;
 }
 
 client.on('ready', async () => {
@@ -135,8 +134,16 @@ client.on('ready', async () => {
       }
       else if (cmd === 'cowsay') {
         text = parts.slice(1);
+        let cowfile = 'sheep';
+        if (parts[0].startsWith('[')) {
+          const cowfiles = getCowlist();
+          const cow = cowfile.slice(1, -1);
+          if (cowfiles.includes(cow)) {
+            cowfile = cow;
+          }
+        }
         message.channel.send("```" + cowsay.say({text: text.join(' '),
-        f: 'sheep'}) + "```",);
+        f: cowfile}) + "```",);
         if (!playing) {
           createText(text);
           playText(text);

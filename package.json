@@ -1,7 +1,7 @@
 {
-  "name": "yutuvoice",
+  "name": "botootl",
   "version": "0.0.1",
-  "description": "Discord Youtube Audio Bot",
+  "description": "simple discord bot playing youtube audio and speaking cowsay",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
