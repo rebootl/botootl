@@ -34,7 +34,7 @@ function getCowlist() {
 
 client.on('ready', async () => {
   console.log('I am ready!');
-  const voiceCh = await client.channels.get(config.voiceChannelId);
+  const voiceCh = await client.channels.cache.get(config.voiceChannelId);
   const voice = await voiceCh.join();
 
   let playing = false;
