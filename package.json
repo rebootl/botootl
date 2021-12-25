@@ -12,7 +12,7 @@
   "dependencies": {
     "discord.js": "12.3.1",
     "node-opus": "^0.3.3",
-    "ytdl-core": "^3.3.0",
+    "ytdl-core": "^4.9.2",
     "cowsay": "^1.4.0"
   }
 }
