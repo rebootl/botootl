@@ -114,6 +114,12 @@ client.on('ready', async () => {
         else if (parts[1] === 'down' && volume > 0.) {
           volume = Math.round((volume - 0.1) * 10) / 10;
         }
+        else {
+          const parsed_volume = parseFloat(parts[1]); 
+          if (!Number.isNaN(parsed_volume) && parsed_volume > 0 && parsed_volume < max_volume) {
+            volume = parsed_volume;
+          }
+        }
         if (playing) {
           dispatcher.setVolume(volume);
         }
